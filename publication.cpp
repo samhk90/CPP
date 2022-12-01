@@ -3,16 +3,16 @@
 using namespace std;
 class publication
 {
-private:
-    char title[200];
-    float price;
+   
 
 public:
+ string title;
+    float price;
     void getinfo()
     {
         cout << "\nEnter the Title:: ";
         cin.ignore(); // clear input buffer
-        cin.getline(title, 200);
+        getline(cin,title);
         cout << "\nEnter the Price:: ";
         cin >> price;
     }
@@ -25,10 +25,8 @@ public:
 };
 class book : public publication
 {
-private:
-    int page;
-
 public:
+int page;
     void getbook()
     {
         getinfo();
@@ -37,23 +35,28 @@ public:
     }
     void putbook()
     {
-        putinfo();
-        if (page < 0)
+        
+        try{
+            if (page>50&& price>100){
+            putinfo();
+            cout<<"\nPage count:: "<<page;
+            }else{throw(page);}
+        }catch(int)
         {
-            cout << "\nInvalid Page count" << page;
-        }
-        else
-        {
-            cout << "\nPage count:: " << page;
+            title="0";
+            page=0;
+            price=0.0;
+            cout<<"\nInvalid Data";
+            putinfo();
+            cout<<"\nPage count:: "<<page;
+
         }
     }
 };
 class tape : public publication
 {
-private:
-    float time;
-
 public:
+ float time;
     void gettape()
     {
         getinfo();
@@ -62,14 +65,21 @@ public:
     }
     void puttape()
     {
-        putinfo();
-        if (time <= 0.0)
-        {
-            cout << "\nInvalid Play Time" << time;
+       try{
+            if (time>30.0 && time<90.0 && price>100)
+            {putinfo();
+            cout<<"\nTime period:: "<<time;}
+            else{throw(time);}
         }
-        else
+        catch(float)
         {
-            cout << "\nPlay Time:: " << time;
+            title="0";
+            time=0.0;
+            price=0.0;
+            cout<<"\nInvalid Data";
+            putinfo();
+            cout<<"\nTime period:: "<<time;
+
         }
     }
 };
