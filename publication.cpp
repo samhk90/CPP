@@ -6,21 +6,40 @@ class publication
    
 
 public:
- string title;
-    float price;
-    void getinfo()
+ string ttitle,btitle;
+    float tprice,bprice;
+    publicaion()
+{
+	ttitle="0";
+	tprice=0;
+	btitle="0";
+	bprice=0;
+}
+    void bgetinfo()
     {
         cout << "\nEnter the Title:: ";
-        cin.ignore(); // clear input buffer
-        getline(cin,title);
+        cin.ignore();
+        getline(cin,btitle);
         cout << "\nEnter the Price:: ";
-        cin >> price;
+        cin >> bprice;
     }
-    void putinfo()
+    void bputinfo()
     {
-        cout << "\n********************************";
-        cout << "\nTitle of Book:: " << title;
-        cout << "\nPrice of Book:: " << price;
+        cout << "\nTitle of Book:: " << btitle;
+        cout << "\nPrice of Book:: " << bprice;
+    }
+    void tgetinfo()
+    {
+        cout << "\nEnter the Title:: ";
+        cin.ignore();
+        getline(cin,ttitle);
+        cout << "\nEnter the Price:: ";
+        cin >> tprice;
+    }
+    void tputinfo()
+    {
+        cout << "\nTitle of Book:: " << ttitle;
+        cout << "\nPrice of Book:: " << tprice;
     }
 };
 class book : public publication
@@ -29,28 +48,26 @@ public:
 int page;
     void getbook()
     {
-        getinfo();
+        bgetinfo();
         cout << "\nEnter the number of pages:: ";
         cin >> page;
+         try{
+            if (page<500 && page>1000){
+			
+			throw(page);
+			}
+        }catch(int)
+        {
+            btitle="0";
+            page=0;
+            bprice=0.0;
+            cout<<"\nInvalid Data";
+        }
     }
     void putbook()
     {
-        
-        try{
-            if (page>50&& price>100){
-            putinfo();
-            cout<<"\nPage count:: "<<page;
-            }else{throw(page);}
-        }catch(int)
-        {
-            title="0";
-            page=0;
-            price=0.0;
-            cout<<"\nInvalid Data";
-            putinfo();
-            cout<<"\nPage count:: "<<page;
-
-        }
+       bputinfo();
+    	cout<<"\nPage count:: "<<page; 
     }
 };
 class tape : public publication
@@ -59,28 +76,28 @@ public:
  float time;
     void gettape()
     {
-        getinfo();
+        tgetinfo();
         cout << "\nEnter play Time in minutes";
         cin >> time;
-    }
-    void puttape()
-    {
-       try{
-            if (time>30.0 && time<90.0 && price>100)
-            {putinfo();
-            cout<<"\nTime period:: "<<time;}
-            else{throw(time);}
+        try{
+            if (time<30.0 && time>90.0)
+            {
+			throw(time);
+		}
         }
         catch(float)
         {
-            title="0";
+            ttitle="0";
             time=0.0;
-            price=0.0;
+           tprice=0.0;
             cout<<"\nInvalid Data";
-            putinfo();
-            cout<<"\nTime period:: "<<time;
-
         }
+    }
+    void puttape()
+    {
+    	tputinfo();
+            cout<<"\nTime period:: "<<time;
+       
     }
 };
 int main()
@@ -89,15 +106,14 @@ int main()
     tape t[100];
     int ch, bcount = 0, tcount = 0;
 
-    do
-    {
+  do{
         cout << "\n****************PUBLICATION***************";
         cout << "\n1.Add Book Info";
         cout << "\n2.Add Tape Info";
         cout << "\n3.Display Book Info";
         cout << "\n4.Display Tape Info";
         cout << "\n5.EXIT";
-        cout << "\nEnter choice";
+        cout << "\nEnter choice:: ";
         cin >> ch;
         switch (ch)
         {
@@ -118,20 +134,21 @@ int main()
         case 3:
         {
             cout << "\n****************PUBLICATION***************";
-            for (int i = 0; i < bcount; i++)
+            for (int i = 0; i < bcount+1;i++)
             {
-                b[i].putbook();
-                break;
+                b[i].putbook();                
             }
+            break;
         }
         case 4:
         {
             cout << "\n****************PUBLICATION***************";
-            for (int i = 0; i < tcount; i++)
+            for (int j = 0; j < tcount+1; j++)
             {
-                t[i].puttape();
-                break;
+                t[j].puttape();
+                
             }
+			break;
         }
         case 5:
         {
